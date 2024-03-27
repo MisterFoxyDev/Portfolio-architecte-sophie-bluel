@@ -12,14 +12,8 @@
     for (let button of buttons) {
       button.classList.remove("active");
     }
+    activeFilter = id;
 
-    if (
-      id === "objets" ||
-      id === "appartements" ||
-      id === "hotels-et-restaurants"
-    ) {
-      activeFilter = id;
-    }
     console.log("🚀 ~ selectFilter ~ activeFilter:", activeFilter);
     const selectedButton = document.getElementById(activeFilter);
 

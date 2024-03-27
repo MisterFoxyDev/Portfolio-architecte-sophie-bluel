@@ -224,9 +224,10 @@ li:hover {
   border-top: solid 2px #1d6154;
   /* (ce que je vois avec une résolution de 103% sur figma) */
   cursor: pointer;
-  min-width: 80px;
+  font-weight: bold;
+  min-width: 90px;
   color: #1d6154;
-  padding: 5px 15px;
+  padding: 10px 15px;
   border-color: #1d6154;
   border-radius: 25px;
 }

@@ -204,6 +204,33 @@ li:hover {
   text-align: center;
   margin-bottom: 1em;
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+  margin-bottom: 50px;
+  gap: 10px;
+}
+
+.active {
+  background-color: #1d6154;
+  color: white !important;
+  /* est-ce grave d'utiliser !important ? */
+}
+
+.buttons button {
+  border: solid 1px #1d6154;
+  border-top: solid 2px #1d6154;
+  /* (ce que je vois avec une résolution de 103% sur figma) */
+  cursor: pointer;
+  min-width: 80px;
+  color: #1d6154;
+  padding: 5px 15px;
+  border-color: #1d6154;
+  border-radius: 25px;
+}
+
 #gallery {
   width: 100%;
   display: grid;
@@ -212,7 +239,7 @@ li:hover {
   grid-row-gap: 20px;
 }
 
-.gallery img {
+#gallery img {
   width: 100%;
 }
 #contact {

@@ -4,6 +4,34 @@
     return data.json();
   };
 
+  window.selectFilter = (id) => {
+    let activeFilter = "tous";
+    const buttons = document.getElementsByClassName("filter-button");
+
+    // Supprimer la classe "active" de tous les boutons
+    for (let button of buttons) {
+      button.classList.remove("active");
+    }
+
+    if (
+      id === "objets" ||
+      id === "appartements" ||
+      id === "hotels-et-restaurants"
+    ) {
+      activeFilter = id;
+    }
+    console.log("🚀 ~ selectFilter ~ activeFilter:", activeFilter);
+    const selectedButton = document.getElementById(activeFilter);
+
+    // Ajouter la classe "active" au bouton sélectionné
+    selectedButton.classList.add("active");
+
+    return activeFilter;
+  };
+
+  // Ajouter la classe "active" au bouton "tous" par défaut
+  document.getElementById("tous").classList.add("active");
+
   let works = await getWorks();
   console.log("🚀 ~ works:", works);
 

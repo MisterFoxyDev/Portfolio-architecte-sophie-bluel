@@ -7,12 +7,33 @@ let activeFilter = "tous";
     return data.json();
   };
 
+  // Appel de la fonction getWorks pour récupérer les travaux pour créer le Set
+  let works = await getWorks();
+
+  // Création d'un set pour lister les différentes catégories de travaux
+  let categories = new Set(works.map((work) => work.category.name));
+
+  // Création des boutons de filtre pour chaque catégorie
+  categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.id = category;
+    button.className = "filter-button";
+    button.onclick = () => selectFilter(category);
+    button.textContent = category;
+
+    // Insertion dans le HTML
+    document.getElementsByClassName("buttons")[0].appendChild(button);
+  });
+
   // Fonction utilisée comme attribut de window pour capter les onclick des boutons
   window.selectFilter = async (id) => {
-    const buttons = document.getElementsByClassName("filter-button");
+    const filterButtons = document.getElementsByClassName("filter-button");
+
+    // Récupération des travaux à chaque nouveau clic sur un filtre
+    let works = await getWorks();
 
     // Boucle qui supprime la classe "active" de tous les boutons, pour avoir un seul bouton actif
-    for (let button of buttons) {
+    for (let button of filterButtons) {
       button.classList.remove("active");
     }
 
@@ -20,9 +41,6 @@ let activeFilter = "tous";
     activeFilter = id;
     const selectedButton = document.getElementById(activeFilter);
     selectedButton.classList.add("active");
-
-    // Appel de la fonction getWorks pour récupérer les travaux
-    let works = await getWorks();
 
     // usage d'un opérateur ternaire pour s'assurer que activeFIlter n'est pas null ou undefined (inutile ?)
     activeFilter =

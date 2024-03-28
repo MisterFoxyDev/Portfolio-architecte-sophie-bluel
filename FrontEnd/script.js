@@ -21,7 +21,7 @@ let activeFilter = "tous";
     button.onclick = () => selectFilter(category);
     button.textContent = category;
 
-    // Insertion dans le HTML
+    // Insertion des boutons dans le HTML
     document.getElementsByClassName("buttons")[0].appendChild(button);
   });
 

@@ -107,6 +107,8 @@ section {
 }
 body {
   line-height: 1;
+  background-color: #FFFEF8;
+  ;
 }
 ol,
 ul {
@@ -177,6 +179,15 @@ nav li {
 li:hover {
   color: #b1663c;
 }
+
+nav a {
+  text-decoration: none;
+}
+
+.active-navlink {
+  font-weight: bold;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -232,6 +243,8 @@ li:hover {
   border-radius: 25px;
 }
 
+/* gallery */
+
 #gallery {
   width: 100%;
   display: grid;
@@ -243,8 +256,56 @@ li:hover {
 #gallery img {
   width: 100%;
 }
+
+/* Login Form */
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  margin: auto;
+  margin-top: 13%;
+  gap: 40px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 9px;
+}
+
+.login-form input {
+  margin-bottom: 12px;
+  width: 100%;
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.login-form button {
+  font-family: "Syne";
+  font-weight: 700;
+  padding: 10px;
+  color: white;
+  background-color: #1d6154;
+  margin: 1.2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+}
+
+.forgot-password {
+  align-self: center;
+  margin-bottom: 75%;
+}
+
+/* Contact Form */
 #contact {
-  width: 50%;
+  width: 30%;
   margin: auto;
 }
 #contact > * {

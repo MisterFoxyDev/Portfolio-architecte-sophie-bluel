@@ -430,13 +430,12 @@ header {
 }
 
 .modal {
-  margin: auto;
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top: 45%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 95%;
@@ -479,7 +478,7 @@ header {
 }
 
 #edit-works img {
-  width: 76.86px;
+  width: 76.9px;
   height: 102.57px;
 }
 

@@ -59,9 +59,11 @@ const toggleModal = () => {
         ? works
         : works.filter((work) => work.category.name === activeFilter);
 
-    // Vidage préalable de la galerie lors d'un clic sur un filtre
+    // Vidage préalable des galeries lors d'un clic sur un filtre
     let gallery = document.getElementById("gallery");
+    let editWorks = document.getElementById("edit-works");
     gallery.innerHTML = "";
+    editWorks.innerHTML = "";
 
     // Remplissage des galeries avec une boucle for
     for (let i = 0; i < works.length; i++) {
@@ -137,7 +139,7 @@ const toggleModal = () => {
     editButton.classList.add("modal-btn");
     editButton.classList.add("modal-trigger");
     projects.appendChild(editButton);
-    
+
     const modalTriggers = document.querySelectorAll(".modal-trigger");
     modalTriggers.forEach((trigger) =>
       trigger.addEventListener("click", toggleModal),

@@ -11,7 +11,7 @@ const loginSubmit = async () => {
   })
     .then((response) => {
       if (response.status === 200) {
-        window.localStorage.setItem("isAdmin", true);
+        window.localStorage.setItem("isAdmin", "true");
         window.location.href = "index.html";
       } else {
         alert("Erreur dans l’identifiant ou le mot de passe");

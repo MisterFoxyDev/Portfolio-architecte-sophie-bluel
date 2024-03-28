@@ -80,4 +80,23 @@ let activeFilter = "tous";
 
   // Appeler selectFilter avec "tous" lors du chargement de la page
   selectFilter("tous");
+
+  // Code suivant à des fins de test
+  window.localStorage.setItem("isAdmin", "true");
+  // window.localStorage.setItem("isAdmin", "false");
+
+  // affichage de mode édition si admin
+  if (window.localStorage.getItem("isAdmin") === "true") {
+    const header = document.querySelector("header");
+    header.classList.add("header-edit-mode");
+    const div = document.createElement("div");
+    div.textContent = "Mode édition";
+    header.prepend(div);
+    div.classList.add("edit-mode");
+    const editButton = document.createElement("i");
+    editButton.classList.add("fa-regular");
+    editButton.classList.add("fa-pen-to-square");
+    div.prepend(editButton);
+    console.log(header.innerHTML);
+  }
 })();

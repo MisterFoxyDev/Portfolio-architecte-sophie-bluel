@@ -28,12 +28,16 @@
     <main>
       <section id="login">
         <h2>Log In</h2>
-        <form action="#" class="login-form">
+        <form
+          action="index.html"
+          onsubmit="event.preventDefault(); loginSubmit()"
+          class="login-form"
+        >
           <label for="email">E-mail</label>
-          <input type="email" name="email" />
+          <input required type="email" name="email" id="email" />
           <label for="password">Mot de passe</label>
-          <input type="password" name="password" />
-          <button class="buttons">Se connecter</button>
+          <input required type="password" name="password" id="password" />
+          <button class="buttons" type="submit">Se connecter</button>
           <a href="#" class="forgot-password">Mot de passe oublié</a>
         </form>
       </section>

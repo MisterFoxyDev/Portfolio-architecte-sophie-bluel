@@ -107,8 +107,7 @@ section {
 }
 body {
   line-height: 1;
-  background-color: #FFFEF8;
-  ;
+  background-color: #fffef8;
 }
 ol,
 ul {
@@ -350,4 +349,33 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
+}
+
+/* Mode édition */
+header {
+  display: flex;
+  flex-wrap: wrap;
+}
+.edit-mode {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  background-color: black;
+  color: white;
+  width: 100vw;
+  height: 5vh;
+  box-sizing: border-box;
+}
+
+.header-edit-mode {
+  margin-top: 90px;
 }

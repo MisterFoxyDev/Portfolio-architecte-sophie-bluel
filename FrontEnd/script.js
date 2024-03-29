@@ -81,9 +81,35 @@ const toggleModal = () => {
       galleryItemImg.src = singleWork.imageUrl;
       galleryItemTitle.textContent = singleWork.title;
 
+      // Création de l'icône de suppression du mode édition
       let trashIcon = document.createElement("i");
       trashIcon.classList.add("fa-solid");
       trashIcon.classList.add("fa-trash-can");
+
+      trashIcon.addEventListener("click", () => {
+        // * Suppression du travail de la base de données
+        if (
+          confirm("Voulez-vous vraiment supprimer cette photo de la galerie ?")
+        ) {
+          fetch(`http://localhost:5678/api/works/${singleWork.id}`, {
+            method: "DELETE",
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                // * Suppression du travail de la galerie
+                gallery.removeChild(galleryItem);
+                editWorks.removeChild(galleryItem.parentElement);
+              } else if (response.status === 401) {
+                alert(
+                  "Erreur : Vous n'êtes pas autorisé à effectuer cette action",
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Erreur:", error);
+            });
+        }
+      });
 
       // Galerie du mode édition
       let editWorks = document.getElementById("edit-works");
@@ -140,6 +166,7 @@ const toggleModal = () => {
     editButton.classList.add("modal-trigger");
     projects.appendChild(editButton);
 
+    // Déclenchement de la modale
     const modalTriggers = document.querySelectorAll(".modal-trigger");
     modalTriggers.forEach((trigger) =>
       trigger.addEventListener("click", toggleModal),

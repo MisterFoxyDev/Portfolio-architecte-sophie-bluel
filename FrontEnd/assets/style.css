@@ -435,10 +435,9 @@ header {
   justify-content: center;
   align-items: center;
   top: 40%;
-  left: 50%;
+  left: 49%;
   transform: translate(-50%, -50%);
-  width: 95%;
-  max-width: 500px;
+  width: 625px;
   min-width: 300px;
   height: auto;
   padding: 30px;
@@ -467,17 +466,17 @@ header {
 }
 
 #edit-works {
-  width: 379px;
+  width: 474px;
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 65px;
   margin: 40px auto;
-  gap: 30px 0;
+  gap: 25px 0;
   border-bottom: solid 1px black;
 }
 
 #edit-works img {
-  width: 76.9px;
+  width: 76.86px;
   height: 102.57px;
 }
 

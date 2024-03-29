@@ -1,9 +1,16 @@
 let activeFilter = "tous";
+let gallery = document.getElementById("gallery");
+let editWorks = document.getElementById("edit-works");
+let editWorksTitle = document.getElementById("edit-works-title");
+let addWorks = document.getElementById("add-works");
 
 const modalContainer = document.querySelector(".modal-container");
 const toggleModal = () => {
   modalContainer.classList.toggle("active");
 };
+
+addWorks.addEventListener("click", () => {
+});
 
 // Fonction IIFE (auto-invoquée)
 (async () => {
@@ -60,8 +67,7 @@ const toggleModal = () => {
         : works.filter((work) => work.category.name === activeFilter);
 
     // Vidage préalable des galeries lors d'un clic sur un filtre
-    let gallery = document.getElementById("gallery");
-    let editWorks = document.getElementById("edit-works");
+
     gallery.innerHTML = "";
     editWorks.innerHTML = "";
 
@@ -112,7 +118,6 @@ const toggleModal = () => {
       });
 
       // Galerie du mode édition
-      let editWorks = document.getElementById("edit-works");
       // * Clone de galleryItemImg pour pouvoir le dupliquer au lieu de le déplacer
       let editItem = galleryItemImg.cloneNode(false);
       let editItemContainer = document.createElement("div");

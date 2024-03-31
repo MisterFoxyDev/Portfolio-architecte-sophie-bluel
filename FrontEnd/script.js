@@ -5,11 +5,17 @@ let editWorksTitle = document.getElementById("edit-works-title");
 let addWorks = document.getElementById("add-works");
 
 const modalContainer = document.querySelector(".modal-container");
+const modal2 = document.querySelector(".modal-2");
+
 const toggleModal = () => {
   modalContainer.classList.toggle("active");
 };
+const toggleModal2 = () => {
+  modal2.classList.toggle("active");
+};
 
 addWorks.addEventListener("click", () => {
+  document.querySelector(".modal-2").classList.add("active");
 });
 
 // Fonction IIFE (auto-invoquée)
@@ -107,7 +113,7 @@ addWorks.addEventListener("click", () => {
                 editWorks.removeChild(galleryItem.parentElement);
               } else if (response.status === 401) {
                 alert(
-                  "Erreur : Vous n'êtes pas autorisé à effectuer cette action",
+                  "Erreur : Vous n'êtes pas autorisé à effectuer cette action"
                 );
               }
             })
@@ -173,8 +179,21 @@ addWorks.addEventListener("click", () => {
 
     // Déclenchement de la modale
     const modalTriggers = document.querySelectorAll(".modal-trigger");
-    modalTriggers.forEach((trigger) =>
-      trigger.addEventListener("click", toggleModal),
-    );
+    const modalTrigger2 = document.querySelector('.modal-2-trigger');
+
+    modalTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", toggleModal);
+      trigger.addEventListener("click", function() {
+        const modal2 = document.querySelector('.modal-2');
+        if (modal2) {
+          modal2.classList.remove('active');
+        }
+      });
+    });
+
+modalTrigger2.addEventListener("click", toggleModal2);
+
+
+
   }
 })();

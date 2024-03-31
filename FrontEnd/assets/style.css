@@ -440,6 +440,7 @@ header {
   width: 625px;
   min-width: 300px;
   height: auto;
+  min-height: 650px;
   padding: 30px;
   background-color: #fff;
   border-radius: 10px;
@@ -455,7 +456,18 @@ header {
   top: 10px;
 }
 
-.modal h3 {
+.close-modal-2 {
+  padding: 8px 10px;
+  border: none;
+  font-size: 1.5em;
+  background-color: #fff;
+  position: absolute;
+  left: 15px;
+  top: 10px;
+}
+
+.modal h3,
+.modal-2 h3 {
   display: flex;
   justify-content: center;
   width: 80%;
@@ -495,4 +507,41 @@ header {
   background-color: black;
   border-radius: 2px;
   cursor: pointer;
+}
+
+#add-works {
+  font-family: "Syne";
+  font-weight: 700;
+  padding: 8px;
+  color: white;
+  background-color: #1d6154;
+  margin: 1.2em auto;
+  width: 235px;
+  text-align: center;
+  border-radius: 60px;
+}
+
+/* Modal 2 */
+
+.modal-2 {
+  display: none;
+}
+
+.modal-2.active {
+  border: solid 2px red;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 40%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+  width: 625px;
+  min-width: 300px;
+  height: auto;
+  min-height: 650px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
 }

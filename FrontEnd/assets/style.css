@@ -432,18 +432,23 @@ header {
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   top: 40%;
   left: 49%;
   transform: translate(-50%, -50%);
-  width: 625px;
   min-width: 300px;
-  height: auto;
-  min-height: 650px;
+
   padding: 30px;
   background-color: #fff;
   border-radius: 10px;
+}
+
+.modal,
+.modal-2 {
+  overflow: auto;
+  width: 600px;
+  height: 615px;
 }
 
 .close-modal {
@@ -472,7 +477,7 @@ header {
   justify-content: center;
   width: 80%;
   color: black;
-  margin: 20px auto 0 auto;
+  margin: 0 auto;
   font-size: 1.8em;
   font-weight: 500;
 }
@@ -528,20 +533,110 @@ header {
 }
 
 .modal-2.active {
-  border: solid 2px red;
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   top: 40%;
   left: 49%;
   transform: translate(-50%, -50%);
-  width: 625px;
   min-width: 300px;
-  height: auto;
-  min-height: 650px;
   padding: 30px;
   background-color: #fff;
   border-radius: 10px;
+}
+
+#add-work-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#add-work-container {
+  width: 420px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 45px;
+  margin: 0 auto;
+  gap: 25px 0;
+  border-bottom: solid 1px black;
+}
+
+.modal-2 input,
+select {
+  margin: 0 auto;
+  width: 100%;
+  height: 45px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#file-input {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+}
+
+.modal-2 label {
+  color: black;
+  margin-bottom: -20px;
+}
+
+#add-work-button {
+  font-family: "Syne";
+  font-weight: 700;
+  padding: 10px;
+  color: white;
+  /* background-color: #A7A7A7; */
+  margin: 35px auto;
+  width: 235px;
+  text-align: center;
+  border-radius: 60px;
+  border: none;
+}
+
+#add-file {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  border: none;
+  border-radius: 3px;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 180px;
+  z-index: 0;
+  background-color: #e8f1f6;
+}
+
+#add-file p:first-of-type {
+  z-index: 0;
+  color: #306685;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100px;
+  padding: 10px 35px;
+  margin: 15px auto;
+  border-radius: 60px;
+  background-color: #cbd6dc;
+}
+
+.fa-image {
+  font-size: 68px;
+  color: #b9c5cc;
+}
+
+#add-file-format {
+  font-size: 0.8em;
+  margin-top: -10px;
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -46,23 +46,33 @@
           <button id="add-works">Ajouter une photo</button>
         </div>
 
-<div class="modal-2">
-  <button class="close-modal modal-trigger">
-    <i class="fa-solid fa-xmark"></i>
-  </button>
-  <button class="close-modal-2 modal-2-trigger">
-    <i class="fa-solid fa-arrow-left"></i>
-  </button>
-  <h3 id="edit-works-title">Ajout photo</h3>
-  <section>
-    <button>
-      <input type="file">
-      <p>+ Ajouter photo</p>
-    </button>
-  </section>
-  <button>Valider</button>
-</div>
-
+        <div class="modal-2">
+          <button class="close-modal modal-trigger">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button class="close-modal-2 modal-2-trigger">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <h3 id="edit-works-title">Ajout photo</h3>
+          <form id="add-work-form">
+            <div id="add-work-container">
+              <!-- Utilisation d'un bouton au lieu d'un div pour son CSS navigateur -->
+              <button type="button" id="add-file">
+                <i class="fa-regular fa-image"></i>
+                <input onchange="displayImage(event)" required id="file-input" type="file" accept=".jpg,.png" />
+                <p>+ Ajouter photo</p>
+                <p id="add-file-format">jpg, png : 4mo max</p>
+              </button>
+              <label for="titre">Titre</label>
+              <input required type="text" name="titre" id="titre" />
+              <label for="categorie">Catégorie</label>
+              <select required type="text" name="categorie" id="categorie">
+                <option value="" selected disabled></option>
+              </select>
+            </div>
+            <button type="submit" id="add-work-button">Valider</button>
+          </form>
+        </div>
       </div>
 
       <section id="introduction">

@@ -127,6 +127,8 @@ let editWorksTitle = document.getElementById("edit-works-title");
       trashIcon.classList.add("fa-solid");
       trashIcon.classList.add("fa-trash-can");
 
+
+      TODO : // Finaliser la suppression d'un travail
       trashIcon.addEventListener("click", () => {
         // * Suppression du travail de la base de données
         if (

@@ -9,9 +9,10 @@ const loginSubmit = async () => {
       password: password,
     }),
   })
-    .then((response) => {
-      if (response.status === 200) {
-        window.localStorage.setItem("isAdmin", "true");
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.token) {
+        window.localStorage.setItem("authToken", data.token);
         window.location.href = "index.html";
       } else {
         alert("Erreur dans l’identifiant ou le mot de passe");

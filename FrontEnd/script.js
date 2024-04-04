@@ -1,5 +1,8 @@
 let editWorksTitle = document.getElementById("edit-works-title");
+<<<<<<< HEAD
 let authToken = window.localStorage.getItem("authToken");
+=======
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
 
 // Fonction IIFE (auto-invoquée)
 (async () => {
@@ -11,7 +14,11 @@ let authToken = window.localStorage.getItem("authToken");
   const modalContainer = document.querySelector(".modal-container");
   const modal2 = document.querySelector(".modal-2");
 
+<<<<<<< HEAD
   // Afficher ou masquer les modales, suppression des valeurs des inputs de la modale 2 et remplacement de l'image choisie
+=======
+  // Fonctions pour afficher ou masquer les modales, suppression des valeurs des inputs de la modale 2 et remplacement de l'image choisie
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
   const toggleModal = () => {
     modalContainer.classList.toggle("active");
     inputs.forEach((input) => (input.value = ""));
@@ -49,7 +56,11 @@ let authToken = window.localStorage.getItem("authToken");
   let categories = new Set(works.map((work) => work.category.name));
   // Création d'une map pour associer chaque catégorie à son id
   let categoryMap = new Map(
+<<<<<<< HEAD
     works.map((work) => [work.category.name, work.category.id]),
+=======
+    works.map((work) => [work.category.name, work.category.id])
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
   );
 
   // Création des boutons de filtre pour chaque catégorie
@@ -128,7 +139,12 @@ let authToken = window.localStorage.getItem("authToken");
       trashIcon.classList.add("fa-solid");
       trashIcon.classList.add("fa-trash-can");
 
+<<<<<<< HEAD
       // Finaliser la suppression d'un travail
+=======
+
+      TODO : // Finaliser la suppression d'un travail
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
       trashIcon.addEventListener("click", () => {
         // * Suppression du travail de la base de données
         if (
@@ -147,7 +163,7 @@ let authToken = window.localStorage.getItem("authToken");
                 editWorks.removeChild(galleryItem.parentElement);
               } else if (response.status === 401) {
                 alert(
-                  "Erreur : Vous n'êtes pas autorisé à effectuer cette action",
+                  "Erreur : Vous n'êtes pas autorisé à effectuer cette action"
                 );
               }
             })
@@ -230,8 +246,11 @@ let authToken = window.localStorage.getItem("authToken");
   const addFileButton = document.querySelector("#add-file");
 
   // * Affichage de la miniature
+<<<<<<< HEAD
   let imageUrl;
 
+=======
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
   window.displayImage = function (e) {
     const file = e.target.files[0];
     const currentImageOrIcon = addFileButton.querySelector("img, .fa-image");
@@ -248,7 +267,10 @@ let authToken = window.localStorage.getItem("authToken");
         img.width = 70;
         img.height = 65;
         addFileButton.insertBefore(img, fileInput);
+<<<<<<< HEAD
         imageUrl = e.target.result;
+=======
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
       };
       reader.readAsDataURL(file);
     } else {
@@ -262,7 +284,11 @@ let authToken = window.localStorage.getItem("authToken");
   // Sélection du bouton Valider bouton et des éléments input/select de la modale 2
   const validateButton = document.querySelector("#add-work-button");
   const inputs = document.querySelectorAll(
+<<<<<<< HEAD
     "#add-work-form input, #add-work-form select",
+=======
+    "#add-work-form input, #add-work-form select"
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
   );
 
   // * Boucle for pour vérifier si les inputs/select sont vides, et adapter la couleur du bouton Valider
@@ -294,6 +320,7 @@ let authToken = window.localStorage.getItem("authToken");
       const title = document.getElementById("titre").value;
       const categoryName = document.getElementById("categorie").value;
       const categoryId = categoryMap.get(categoryName);
+<<<<<<< HEAD
 
       // Création du formData
       const formData = new FormData();
@@ -303,12 +330,34 @@ let authToken = window.localStorage.getItem("authToken");
       formData.append("userId", 1);
 
       console.log("🚀 ~ formData:", formData);
+=======
+      const fileInput = document.getElementById("file-input");
+      const imageFile = fileInput.files[0];
+
+      // Création d'un objet FormData et y ajouter les données
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("categoryId", categoryId);
+      formData.append("image", imageFile);
+
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+
+      // Récupération du token depuis le localStorage
+      const token = window.localStorage.getItem("token");
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
 
       // Envoyer la requête POST
       const response = await fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: {
+<<<<<<< HEAD
           Authorization: `Bearer ${authToken}`,
+=======
+          // ! stocké en dur à des fins de test uniquement
+          Authorization: "Bearer gwEtS=KfKfR^zxJP83ULiw",
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
         },
         body: formData,
       });
@@ -318,7 +367,11 @@ let authToken = window.localStorage.getItem("authToken");
         toggleModal2();
       } else {
         alert("Erreur lors de l'envoi");
+<<<<<<< HEAD
         console.log("Erreur lors de la requête POST:", response.status);
+=======
+        console.error("Erreur lors de la requête POST:", response.status);
+>>>>>>> 6f74b26bfbb9a9fa11221dc3a2406b9a552e3a16
       }
     });
 })();

@@ -70,7 +70,7 @@ let works;
     option.textContent = category;
   });
 
-  // Fonction utilisée comme attribut de window pour capter les onclick des boutons
+  // Fonction pour filtrer les travaux en fonction de la catégorie sélectionnée
   const selectFilter = async (id) => {
     const filterButtons = document.getElementsByClassName("filter-button");
 
@@ -228,6 +228,7 @@ let works;
 
   // * Affichage de la miniature
 
+  // Fonction d'affichage de l'image sélectionnée
   const displayImage = (e) => {
     const file = e.target.files[0];
     const currentImageOrIcon = addFileButton.querySelector("img, .fa-image");
@@ -254,6 +255,7 @@ let works;
     }
   };
 
+  // Ecouteur d'évènement sur le changement de choix de fichier
   fileInput.addEventListener("change", displayImage);
 
   // Sélection du bouton Valider bouton et des éléments input/select de la modale 2

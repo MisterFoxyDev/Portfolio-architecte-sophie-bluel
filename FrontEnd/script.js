@@ -1,29 +1,21 @@
-let editWorksTitle = document.getElementById("edit-works-title");
-let authToken = window.localStorage.getItem("authToken");
+const editWorksTitle = document.getElementById("edit-works-title");
+const authToken = localStorage.getItem("authToken");
+let works;
 
 // Fonction IIFE (auto-invoquée)
 (async () => {
   let activeFilter = "tous";
-  let gallery = document.getElementById("gallery");
-  let editWorks = document.getElementById("edit-works");
-  let addWorks = document.getElementById("add-works");
+  const gallery = document.getElementById("gallery");
+  const editWorks = document.getElementById("edit-works");
+  const addWorks = document.getElementById("add-works");
 
   const modalContainer = document.querySelector(".modal-container");
   const modal2 = document.querySelector(".modal-2");
 
   // Afficher ou masquer les modales, suppression des valeurs des inputs de la modale 2 et remplacement de l'image choisie
-  const toggleModal = () => {
-    modalContainer.classList.toggle("active");
-    inputs.forEach((input) => (input.value = ""));
-    const img = document.querySelector("#add-file img");
-    if (img) {
-      const icon = document.createElement("i");
-      icon.className = "fa-regular fa-image";
-      img.replaceWith(icon);
-    }
-  };
-  const toggleModal2 = () => {
-    modal2.classList.toggle("active");
+
+  const toggleModal = (modal) => {
+    modal.classList.toggle("active");
     inputs.forEach((input) => (input.value = ""));
     const img = document.querySelector("#add-file img");
     if (img) {
@@ -43,12 +35,12 @@ let authToken = window.localStorage.getItem("authToken");
   };
 
   // Appel de la fonction getWorks pour récupérer les travaux pour créer le Set
-  let works = await getWorks();
+  works = await getWorks();
 
   // Création d'un set pour lister les différentes catégories de travaux
-  let categories = new Set(works.map((work) => work.category.name));
+  const categories = new Set(works.map((work) => work.category.name));
   // Création d'une map pour associer chaque catégorie à son id
-  let categoryMap = new Map(
+  const categoryMap = new Map(
     works.map((work) => [work.category.name, work.category.id]),
   );
 
@@ -78,7 +70,7 @@ let authToken = window.localStorage.getItem("authToken");
     const filterButtons = document.getElementsByClassName("filter-button");
 
     // Récupération des travaux à chaque nouveau clic sur un filtre
-    let works = await getWorks();
+    works = await getWorks();
 
     // Boucle qui supprime la classe "active" de tous les boutons, pour avoir un seul bouton actif
     for (let button of filterButtons) {
@@ -111,9 +103,9 @@ let authToken = window.localStorage.getItem("authToken");
     for (const element of works) {
       let singleWork = element;
 
-      let galleryItem = document.createElement("figure");
-      let galleryItemImg = document.createElement("img");
-      let galleryItemTitle = document.createElement("figcaption");
+      const galleryItem = document.createElement("figure");
+      const galleryItemImg = document.createElement("img");
+      const galleryItemTitle = document.createElement("figcaption");
 
       galleryItem.appendChild(galleryItemImg);
       galleryItem.appendChild(galleryItemTitle);
@@ -124,7 +116,7 @@ let authToken = window.localStorage.getItem("authToken");
       galleryItemTitle.textContent = singleWork.title;
 
       // Création de l'icône de suppression du mode édition
-      let trashIcon = document.createElement("i");
+      const trashIcon = document.createElement("i");
       trashIcon.classList.add("fa-solid");
       trashIcon.classList.add("fa-trash-can");
 
@@ -159,8 +151,8 @@ let authToken = window.localStorage.getItem("authToken");
 
       // Galerie du mode édition
       // * Clone de galleryItemImg pour pouvoir le dupliquer au lieu de le déplacer
-      let editItem = galleryItemImg.cloneNode(false);
-      let editItemContainer = document.createElement("div");
+      const editItem = galleryItemImg.cloneNode(false);
+      const editItemContainer = document.createElement("div");
       editItemContainer.appendChild(editItem);
       editItemContainer.appendChild(trashIcon);
       editWorks.appendChild(editItemContainer);
@@ -176,7 +168,7 @@ let authToken = window.localStorage.getItem("authToken");
   // * affichage du mode édition si admin
 
   // vérification de authToken dans le localStorage
-  if (window.localStorage.getItem("authToken")) {
+  if (localStorage.getItem("authToken")) {
     // ajout de la classe "header-edit-mode" à l'élément header
     const header = document.querySelector("header");
     header.classList.add("header-edit-mode");
@@ -212,7 +204,7 @@ let authToken = window.localStorage.getItem("authToken");
     const modalTrigger2 = document.querySelector(".modal-2-trigger");
 
     modalTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", toggleModal);
+      trigger.addEventListener("click", () => toggleModal(modalContainer));
       trigger.addEventListener("click", function () {
         const modal2 = document.querySelector(".modal-2");
         if (modal2) {
@@ -221,7 +213,7 @@ let authToken = window.localStorage.getItem("authToken");
       });
     });
 
-    modalTrigger2.addEventListener("click", toggleModal2);
+    modalTrigger2.addEventListener("click", () => toggleModal(modal2));
   }
 
   // * Modale 2
@@ -313,7 +305,7 @@ let authToken = window.localStorage.getItem("authToken");
 
       // Traitement de la réponse
       if (response.ok) {
-        toggleModal2();
+        toggleModal(modal2);
       } else {
         alert("Erreur lors de l'envoi");
         console.log("Erreur lors de la requête POST:", response.status);

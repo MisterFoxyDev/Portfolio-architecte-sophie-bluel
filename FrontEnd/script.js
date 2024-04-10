@@ -108,8 +108,8 @@ let authToken = window.localStorage.getItem("authToken");
     editWorks.innerHTML = "";
 
     // Remplissage des galeries avec une boucle for
-    for (let i = 0; i < works.length; i++) {
-      let singleWork = works[i];
+    for (const element of works) {
+      let singleWork = element;
 
       let galleryItem = document.createElement("figure");
       let galleryItemImg = document.createElement("img");
@@ -230,7 +230,6 @@ let authToken = window.localStorage.getItem("authToken");
   const addFileButton = document.querySelector("#add-file");
 
   // * Affichage de la miniature
-  let imageUrl;
 
   window.displayImage = function (e) {
     const file = e.target.files[0];
@@ -248,7 +247,6 @@ let authToken = window.localStorage.getItem("authToken");
         img.width = 70;
         img.height = 65;
         addFileButton.insertBefore(img, fileInput);
-        imageUrl = e.target.result;
       };
       reader.readAsDataURL(file);
     } else {
@@ -267,8 +265,8 @@ let authToken = window.localStorage.getItem("authToken");
 
   // * Boucle for pour vérifier si les inputs/select sont vides, et adapter la couleur du bouton Valider
   function checkInputs() {
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].value) {
+    for (const element of inputs) {
+      if (!element.value) {
         validateButton.style.backgroundColor = "#A7A7A7";
         return;
       }

@@ -55,7 +55,7 @@ let works;
     // Insertion des boutons dans le HTML
     document.getElementsByClassName("buttons")[0].appendChild(button);
   });
-  
+
   // écouteur pour le bouton "Tous"
   document
     .getElementById("tous")
@@ -228,7 +228,7 @@ let works;
 
   // * Affichage de la miniature
 
-  window.displayImage = function (e) {
+  const displayImage = (e) => {
     const file = e.target.files[0];
     const currentImageOrIcon = addFileButton.querySelector("img, .fa-image");
     //Supression si icône ou image existante
@@ -253,6 +253,8 @@ let works;
       addFileButton.insertBefore(icon, fileInput);
     }
   };
+
+  fileInput.addEventListener("change", displayImage);
 
   // Sélection du bouton Valider bouton et des éléments input/select de la modale 2
   const validateButton = document.querySelector("#add-work-button");

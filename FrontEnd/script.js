@@ -49,12 +49,17 @@ let works;
     const button = document.createElement("button");
     button.id = category;
     button.className = "filter-button";
-    button.onclick = () => selectFilter(category);
+    button.addEventListener("click", () => selectFilter(category));
     button.textContent = category;
 
     // Insertion des boutons dans le HTML
     document.getElementsByClassName("buttons")[0].appendChild(button);
   });
+  
+  // écouteur pour le bouton "Tous"
+  document
+    .getElementById("tous")
+    .addEventListener("click", () => selectFilter("tous"));
 
   // Création des options du select pour chaque catégorie (Modale 2)
   categories.forEach((category) => {
@@ -66,7 +71,7 @@ let works;
   });
 
   // Fonction utilisée comme attribut de window pour capter les onclick des boutons
-  window.selectFilter = async (id) => {
+  const selectFilter = async (id) => {
     const filterButtons = document.getElementsByClassName("filter-button");
 
     // Récupération des travaux à chaque nouveau clic sur un filtre

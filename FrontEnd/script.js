@@ -317,7 +317,7 @@ let works;
         toggleModal(modal2);
       } else {
         alert("Erreur lors de l'envoi");
-        console.log("Erreur lors de la requête POST:", response.status);
+        console.error("Erreur lors de la requête POST:", response.status);
       }
     });
 })();

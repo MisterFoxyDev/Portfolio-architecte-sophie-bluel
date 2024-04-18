@@ -1,5 +1,5 @@
 (async () => {
-  // !!!!! Définition !!!!!
+  // !!!!! Définition des fonctions !!!!!
 
   // ***** Galerie *****
   // Récupère les travaux depuis l'API
@@ -359,7 +359,7 @@
     }
   };
 
-  // !!!!! Application !!!!!
+  // !!!!! Application des fonctions !!!!!
 
   try {
     document.getElementById("tous").classList.add("active");

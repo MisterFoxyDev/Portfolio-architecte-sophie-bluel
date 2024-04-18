@@ -1,5 +1,4 @@
 (async () => {
-  
   // Récupère les travaux depuis l'API
   const getWorks = async () => {
     const response = await fetch("http://localhost:5678/api/works");
@@ -332,7 +331,6 @@
   const sendFormData = async (fileInput) => {
     const modal2 = document.querySelector(".modal-2");
     const formData = await createFormData(fileInput);
-    console.log("🚀 ~ sendFormData ~ formData:", formData);
     const authToken = localStorage.getItem("authToken");
 
     const response = await fetch("http://localhost:5678/api/works", {
@@ -343,11 +341,8 @@
       body: formData,
     });
     if (response.ok) {
-      console.log("Envoi réussi");
       toggleModal(modal2);
     } else {
-      const responseBody = await response.text();
-      console.log("Corps de la réponse :", responseBody);
       alert("Erreur lors de l'envoi");
       console.error("Erreur lors de la requête POST:", response.status);
     }

@@ -1,4 +1,7 @@
 (async () => {
+  // !!!!! Définition !!!!!
+
+  // ***** Galerie *****
   // Récupère les travaux depuis l'API
   const getWorks = async () => {
     const response = await fetch("http://localhost:5678/api/works");
@@ -109,6 +112,8 @@
     }
   };
 
+  // ***** Mode édition *****
+
   // Crée l'en-tête du mode d'édition
   const createEditModeHeader = () => {
     const header = document.querySelector("header");
@@ -157,6 +162,8 @@
       switchToEditMode();
     }
   };
+
+  // ***** Gestion des modales *****
 
   // Ouvre ou ferme la modale
   const toggleModal = (modal) => {
@@ -217,6 +224,8 @@
     openModal2();
   };
 
+  // ***** Modale 1 (suppression de travaux) *****
+
   // Crée l'icône de la corbeille pour supprimer un travail
   const createTrashIcon = (singleWork) => {
     const trashIcon = document.createElement("i");
@@ -251,6 +260,8 @@
         });
     }
   };
+
+  // ***** Modale 2 (ajout de travaux) *****
 
   // Affiche la miniature de l'image sélectionnée
   const displayThumbnail = (e) => {
@@ -347,6 +358,8 @@
       console.error("Erreur lors de la requête POST:", response.status);
     }
   };
+
+  // !!!!! Application !!!!!
 
   try {
     document.getElementById("tous").classList.add("active");

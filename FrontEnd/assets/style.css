@@ -106,6 +106,10 @@ section {
   display: block;
 }
 body {
+  max-width: 1140px;
+  margin: auto;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
   line-height: 1;
   background-color: #fffef8;
 }
@@ -129,14 +133,9 @@ table {
   border-spacing: 0;
 }
 /** end reset css**/
-body {
-  max-width: 1140px;
-  margin: auto;
-  font-family: "Work Sans";
-  font-size: 14px;
-}
 header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: 50px 0;
 }
@@ -147,20 +146,20 @@ section {
 h1 {
   display: flex;
   flex-direction: column;
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-size: 22px;
   font-weight: 800;
   color: #b1663c;
 }
 
 h1 > span {
-  font-family: "Work Sans";
+  font-family: "Work Sans", sans-serif;
   font-size: 10px;
   letter-spacing: 0.1em;
 }
 
 h2 {
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-weight: 700;
   font-size: 30px;
   color: #1d6154;
@@ -289,7 +288,7 @@ button {
 }
 
 .login-form button {
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-weight: 700;
   padding: 10px;
   color: white;
@@ -338,7 +337,7 @@ button {
 }
 
 input[type="submit"] {
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-weight: 700;
   color: white;
   background-color: #1d6154;
@@ -355,10 +354,6 @@ footer nav ul {
 }
 
 /* Mode édition */
-header {
-  display: flex;
-  flex-wrap: wrap;
-}
 .edit-mode {
   position: absolute;
   top: 0;
@@ -366,12 +361,10 @@ header {
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom: 40px;
   background-color: black;
   color: white;
   width: 99.5vw;
@@ -502,6 +495,26 @@ header {
   justify-content: center;
 }
 
+#edit-mode-gallery {
+  width: 474px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 65px;
+  margin: 40px auto;
+  gap: 25px 0;
+  border-bottom: solid 1px black;
+}
+
+#edit-mode-gallery img {
+  width: 76.86px;
+  height: 102.57px;
+}
+
+#edit-mode-gallery button {
+  display: flex;
+  justify-content: center;
+}
+
 .fa-trash-can {
   position: relative;
   top: -78%;
@@ -515,7 +528,7 @@ header {
 }
 
 #add-works {
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-weight: 700;
   padding: 8px;
   color: white;
@@ -591,7 +604,7 @@ select {
 }
 
 #add-work-button {
-  font-family: "Syne";
+  font-family: "Syne", sans-serif;
   font-weight: 700;
   padding: 10px;
   color: white;

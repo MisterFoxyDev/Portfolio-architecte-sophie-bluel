@@ -1,3 +1,6 @@
+let categories;
+let works;
+
 (async () => {
   // !!!!! Définition des fonctions !!!!!
 
@@ -15,15 +18,20 @@
     return response.json();
   };
 
-  // Récupère les catégories uniques à partir des travaux
-  const setCategories = async () => {
-    const works = await getWorks();
-    const categories = new Set(works.map((work) => work.category.name));
-    return categories;
+  const getCategories = async () => {
+    const response = await fetch("http://localhost:5678/api/categories");
+
+    if (!response.ok) {
+      throw new Error(
+        `Erreur lors de la récupération des catégories : ${response.statusText}`,
+      );
+    }
+
+    return response.json();
   };
 
   // Crée les boutons de filtre
-  const createFilterButtons = (categories) => {
+  const createFilterButtons = (categories, works) => {
     document
       .getElementById("tous")
       .addEventListener("click", () => applyFilter("tous"));
@@ -34,10 +42,10 @@
   const addFilterButtons = (categories) => {
     categories.forEach((category) => {
       const button = document.createElement("button");
-      button.id = category;
+      button.id = category.name;
       button.className = "filter-button";
-      button.addEventListener("click", () => applyFilter(category));
-      button.textContent = category;
+      button.addEventListener("click", () => applyFilter(category.name));
+      button.textContent = category.name;
       document.getElementsByClassName("buttons")[0].appendChild(button);
     });
   };
@@ -80,36 +88,37 @@
   const applyFilter = (id = "tous") => {
     applyFilterOnButtons(id);
     clearGalleries();
-    applyFilterOnGalleries(id);
+    applyFilterOnGalleries(id, works);
   };
 
   // Applique le filtre sur les galeries en fonction de l'ID
-  const applyFilterOnGalleries = async (id) => {
+  const applyFilterOnGalleries = async (id = "tous", works) => {
     const editModeGallery = document.getElementById("edit-mode-gallery");
 
-    let works = await getWorks();
-    works =
-      id === "tous" ? works : works.filter((work) => work.category.name === id);
-    for (const singleWork of works) {
+    works.forEach((work) => {
+      if (work.category.name !== id && id !== "tous") {
+        return;
+      }
       const galleryItem = document.createElement("figure");
+      galleryItem.setAttribute("id", `work-${work.id}`);
       const galleryItemImg = document.createElement("img");
       const galleryItemTitle = document.createElement("figcaption");
 
-      galleryItemImg.src = singleWork.imageUrl;
-      galleryItemTitle.textContent = singleWork.title;
+      galleryItemImg.src = work.imageUrl;
+      galleryItemTitle.textContent = work.title;
 
       const editItem = galleryItemImg.cloneNode(true);
       const editItemContainer = document.createElement("div");
-      const trashIcon = createTrashIcon(singleWork);
+      editItemContainer.setAttribute("id", `edit-${work.id}`);
+      const trashIcon = createTrashIcon(work);
 
       editItemContainer.appendChild(editItem);
       editItemContainer.appendChild(trashIcon);
       editModeGallery.appendChild(editItemContainer);
       galleryItem.appendChild(galleryItemImg);
       galleryItem.appendChild(galleryItemTitle);
-
       document.getElementById("gallery").appendChild(galleryItem);
-    }
+    });
   };
 
   // ***** Mode édition *****
@@ -182,7 +191,7 @@
   };
 
   // Ouvre la modale 2
-  const openModal2 = async () => {
+  const openModal2 = async (categories) => {
     document.getElementById("add-works").addEventListener("click", () => {
       document.querySelector(".modal-2").classList.add("active");
     });
@@ -194,10 +203,8 @@
       "#add-work-form input, #add-work-form select",
     );
     inputs.forEach((input) => {
-      input.addEventListener("change", checkInputs);
+      input.addEventListener("change", () => checkInputs(fileInput));
     });
-
-    const categories = await setCategories();
     showSelectOptions(categories);
   };
 
@@ -210,7 +217,7 @@
   };
 
   // Ouvre les modales
-  const openModals = () => {
+  const openModals = (categories) => {
     const modalTriggers = document.querySelectorAll(".modal-trigger");
     const modalTrigger2 = document.querySelector(".modal-2-trigger");
     const modalContainer = document.querySelector(".modal-container");
@@ -221,7 +228,7 @@
       trigger.addEventListener("click", () => closeModal2());
     });
     modalTrigger2.addEventListener("click", () => toggleModal(modal2));
-    openModal2();
+    openModal2(categories);
   };
 
   // ***** Modale 1 (suppression de travaux) *****
@@ -240,24 +247,27 @@
     const gallery = document.getElementById("gallery");
     const editModeGallery = document.getElementById("edit-mode-gallery");
     const galleryItem = document.querySelector(`#work-${singleWork.id}`);
+    const editItem = document.querySelector(`#edit-${singleWork.id}`);
     if (confirm("Voulez-vous vraiment supprimer cette photo de la galerie ?")) {
-      fetch(`http://localhost:5678/api/works/${singleWork.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
+      const response = await fetch(
+        `http://localhost:5678/api/works/${singleWork.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         },
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            gallery.removeChild(galleryItem);
-            editModeGallery.removeChild(galleryItem.parentElement);
-          } else if (response.status === 401) {
-            alert("Erreur : Vous n'êtes pas autorisé à effectuer cette action");
-          }
-        })
-        .catch((error) => {
-          console.error("Erreur:", error);
-        });
+      );
+      if (response.status === 204) {
+        gallery.removeChild(galleryItem);
+        editModeGallery.removeChild(editItem);
+        const index = works.findIndex((work) => work.id === singleWork.id);
+        if (index !== -1) {
+          works.splice(index, 1);
+        }
+      } else if (response.status === 401) {
+        alert("Erreur : Vous n'êtes pas autorisé à effectuer cette action");
+      }
     }
   };
 
@@ -296,15 +306,14 @@
       const select = document.querySelector("select");
       const option = document.createElement("option");
       select.appendChild(option);
-      option.value = category;
-      option.textContent = category;
+      option.value = category.name;
+      option.textContent = category.name;
     });
   };
 
   // Vérifie si tous les champs du formulaire sont remplis
-  const checkInputs = () => {
+  const checkInputs = (fileInput) => {
     const validateButton = document.querySelector("#add-work-button");
-    const fileInput = document.querySelector("#file-input");
     const inputs = document.querySelectorAll(
       "#add-work-form input, #add-work-form select",
     );
@@ -315,21 +324,24 @@
       }
     }
     validateButton.style.backgroundColor = "#1d6154";
-    document.getElementById("add-work-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      sendFormData(fileInput);
-    });
+    document
+      .getElementById("add-work-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        works = await sendFormData(fileInput);
+        applyFilter("tous");
+      });
   };
 
   // Crée un objet FormData à partir des données du formulaire
   const createFormData = async (fileInput) => {
-    const works = await getWorks();
-    const categoryMap = new Map(
-      works.map((work) => [work.category.name, work.category.id]),
-    );
     const title = document.getElementById("titre").value;
     const categoryName = document.getElementById("categorie").value;
-    const categoryId = categoryMap.get(categoryName);
+    const category = categories.find(
+      (category) => category.name === categoryName,
+    );
+
+    const categoryId = category.id;
     const formData = new FormData();
     formData.append("title", title);
     formData.append("category", categoryId);
@@ -353,6 +365,7 @@
     });
     if (response.ok) {
       toggleModal(modal2);
+      return await getWorks();
     } else {
       alert("Erreur lors de l'envoi");
       console.error("Erreur lors de la requête POST:", response.status);
@@ -363,11 +376,12 @@
 
   try {
     document.getElementById("tous").classList.add("active");
-    const categories = await setCategories();
-    createFilterButtons(categories);
+    works = await getWorks();
+    categories = await getCategories();
+    createFilterButtons(categories, works);
     applyFilter("tous");
     checkConnection();
-    openModals();
+    openModals(categories);
   } catch (error) {
     console.error(error);
   }

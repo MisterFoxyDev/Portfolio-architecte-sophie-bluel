@@ -1,37 +1,34 @@
-let categories;
 let works;
 
 (async () => {
   // !!!!! Définition des fonctions !!!!!
 
   // ***** Galerie *****
-  // Récupère les travaux depuis l'API
-  const getWorks = async () => {
-    const response = await fetch("http://localhost:5678/api/works");
+  // Fonction générique pour récupérer les données de l'API
+  const fetchData = async (url) => {
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(
-        `Erreur lors de la récupération des travaux : ${response.statusText}`,
+        `Erreur lors de la récupération des données : ${response.statusText}`,
       );
     }
 
     return response.json();
   };
 
+  // Récupère les travaux depuis l'API
+  const getWorks = async () => {
+    return fetchData("http://localhost:5678/api/works");
+  };
+
+  // Récupère les catégories depuis l'API
   const getCategories = async () => {
-    const response = await fetch("http://localhost:5678/api/categories");
-
-    if (!response.ok) {
-      throw new Error(
-        `Erreur lors de la récupération des catégories : ${response.statusText}`,
-      );
-    }
-
-    return response.json();
+    return fetchData("http://localhost:5678/api/categories");
   };
 
   // Crée les boutons de filtre
-  const createFilterButtons = (categories, works) => {
+  const createFilterButtons = (categories) => {
     document
       .getElementById("tous")
       .addEventListener("click", () => applyFilter("tous"));
@@ -203,7 +200,7 @@ let works;
       "#add-work-form input, #add-work-form select",
     );
     inputs.forEach((input) => {
-      input.addEventListener("change", () => checkInputs(fileInput));
+      input.addEventListener("change", () => checkInputs());
     });
     showSelectOptions(categories);
   };
@@ -311,8 +308,22 @@ let works;
     });
   };
 
+  // Ajoute l'écouteur d'événements sur le formulaire
+  const addFormSubmitListener = (fileInput, categories) => {
+    document
+      .getElementById("add-work-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const submitButton = document.querySelector("#add-work-button");
+        submitButton.setAttribute("disabled", "");
+        works = await sendFormData(fileInput, categories);
+        applyFilter("tous");
+        submitButton.removeAttribute("disabled");
+      });
+  };
+
   // Vérifie si tous les champs du formulaire sont remplis
-  const checkInputs = (fileInput) => {
+  const checkInputs = () => {
     const validateButton = document.querySelector("#add-work-button");
     const inputs = document.querySelectorAll(
       "#add-work-form input, #add-work-form select",
@@ -324,17 +335,10 @@ let works;
       }
     }
     validateButton.style.backgroundColor = "#1d6154";
-    document
-      .getElementById("add-work-form")
-      .addEventListener("submit", async (e) => {
-        e.preventDefault();
-        works = await sendFormData(fileInput);
-        applyFilter("tous");
-      });
   };
 
   // Crée un objet FormData à partir des données du formulaire
-  const createFormData = async (fileInput) => {
+  const createFormData = async (fileInput, categories) => {
     const title = document.getElementById("titre").value;
     const categoryName = document.getElementById("categorie").value;
     const category = categories.find(
@@ -351,24 +355,31 @@ let works;
   };
 
   // Envoie les données du formulaire à l'API
-  const sendFormData = async (fileInput) => {
+  const sendFormData = async (fileInput, categories) => {
     const modal2 = document.querySelector(".modal-2");
-    const formData = await createFormData(fileInput);
+    const formData = await createFormData(fileInput, categories);
     const authToken = localStorage.getItem("authToken");
 
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-      body: formData,
-    });
-    if (response.ok) {
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Erreur lors de l'envoi des données : ${response.statusText}`,
+        );
+      }
+
       toggleModal(modal2);
       return await getWorks();
-    } else {
+    } catch (error) {
       alert("Erreur lors de l'envoi");
-      console.error("Erreur lors de la requête POST:", response.status);
+      console.error("Erreur lors de la requête POST:", error);
     }
   };
 
@@ -377,11 +388,13 @@ let works;
   try {
     document.getElementById("tous").classList.add("active");
     works = await getWorks();
-    categories = await getCategories();
-    createFilterButtons(categories, works);
+    const categories = await getCategories();
+    createFilterButtons(categories);
     applyFilter("tous");
     checkConnection();
     openModals(categories);
+    const fileInput = document.querySelector("#file-input");
+    addFormSubmitListener(fileInput, categories);
   } catch (error) {
     console.error(error);
   }

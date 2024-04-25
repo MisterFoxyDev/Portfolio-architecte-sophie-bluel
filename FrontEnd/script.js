@@ -1,5 +1,3 @@
-let works;
-
 (async () => {
   // !!!!! Définition des fonctions !!!!!
 
@@ -28,20 +26,31 @@ let works;
   };
 
   // Crée les boutons de filtre
-  const createFilterButtons = (categories) => {
+  const createFilterButtons = (categories, works, updatedWorks) => {
+    const worksToUse = updatedWorks || works;
+    const buttonsContainer = document.getElementsByClassName("buttons")[0];
+    Array.from(buttonsContainer.children).forEach((button) => {
+      if (button.id !== "tous") {
+        buttonsContainer.removeChild(button);
+      }
+    });
+
     document
       .getElementById("tous")
-      .addEventListener("click", () => applyFilter("tous"));
-    addFilterButtons(categories);
+      .addEventListener("click", () => applyFilter("tous", worksToUse));
+    addFilterButtons(categories, worksToUse);
   };
 
   // Ajoute les boutons de filtre au DOM
-  const addFilterButtons = (categories) => {
+  const addFilterButtons = (categories, works, updatedWorks) => {
+    const worksToUse = updatedWorks || works;
     categories.forEach((category) => {
       const button = document.createElement("button");
       button.id = category.name;
       button.className = "filter-button";
-      button.addEventListener("click", () => applyFilter(category.name));
+      button.addEventListener("click", () =>
+        applyFilter(category.name, worksToUse),
+      );
       button.textContent = category.name;
       document.getElementsByClassName("buttons")[0].appendChild(button);
     });
@@ -82,17 +91,18 @@ let works;
   };
 
   // Applique le filtre sur les galeries
-  const applyFilter = (id = "tous") => {
+  const applyFilter = (id = "tous", updatedWorks) => {
     applyFilterOnButtons(id);
     clearGalleries();
-    applyFilterOnGalleries(id, works);
+    applyFilterOnGalleries(id, updatedWorks);
   };
 
   // Applique le filtre sur les galeries en fonction de l'ID
-  const applyFilterOnGalleries = async (id = "tous", works) => {
+  const applyFilterOnGalleries = async (id = "tous", works, updatedWorks) => {
+    const worksToUse = updatedWorks || works;
     const editModeGallery = document.getElementById("edit-mode-gallery");
 
-    works.forEach((work) => {
+    worksToUse.forEach((work) => {
       if (work.category.name !== id && id !== "tous") {
         return;
       }
@@ -107,7 +117,7 @@ let works;
       const editItem = galleryItemImg.cloneNode(true);
       const editItemContainer = document.createElement("div");
       editItemContainer.setAttribute("id", `edit-${work.id}`);
-      const trashIcon = createTrashIcon(work);
+      const trashIcon = createTrashIcon(work, works, updatedWorks);
 
       editItemContainer.appendChild(editItem);
       editItemContainer.appendChild(trashIcon);
@@ -231,15 +241,18 @@ let works;
   // ***** Modale 1 (suppression de travaux) *****
 
   // Crée l'icône de la corbeille pour supprimer un travail
-  const createTrashIcon = (singleWork) => {
+  const createTrashIcon = (singleWork, works, updatedWorks) => {
     const trashIcon = document.createElement("i");
     trashIcon.classList.add("fa-solid", "fa-trash-can");
-    trashIcon.addEventListener("click", () => deleteWork(singleWork));
+    trashIcon.addEventListener("click", () =>
+      deleteWork(singleWork, works, updatedWorks),
+    );
     return trashIcon;
   };
 
   // Supprime un travail
-  const deleteWork = async (singleWork) => {
+  const deleteWork = async (singleWork, works, updatedWorks) => {
+    const worksToUse = updatedWorks || works;
     const authToken = localStorage.getItem("authToken");
     const gallery = document.getElementById("gallery");
     const editModeGallery = document.getElementById("edit-mode-gallery");
@@ -258,7 +271,7 @@ let works;
       if (response.status === 204) {
         gallery.removeChild(galleryItem);
         editModeGallery.removeChild(editItem);
-        const index = works.findIndex((work) => work.id === singleWork.id);
+        const index = worksToUse.findIndex((work) => work.id === singleWork.id);
         if (index !== -1) {
           works.splice(index, 1);
         }
@@ -309,15 +322,16 @@ let works;
   };
 
   // Ajoute l'écouteur d'événements sur le formulaire
-  const addFormSubmitListener = (fileInput, categories) => {
+  const addFormSubmitListener = (fileInput, categories, works) => {
     document
       .getElementById("add-work-form")
       .addEventListener("submit", async (e) => {
         e.preventDefault();
         const submitButton = document.querySelector("#add-work-button");
         submitButton.setAttribute("disabled", "");
-        works = await sendFormData(fileInput, categories);
-        applyFilter("tous");
+        const updatedWorks = await sendFormData(fileInput, categories);
+        createFilterButtons(categories, works, updatedWorks);
+        applyFilter("tous", updatedWorks);
         submitButton.removeAttribute("disabled");
       });
   };
@@ -387,14 +401,14 @@ let works;
 
   try {
     document.getElementById("tous").classList.add("active");
-    works = await getWorks();
+    const works = await getWorks();
     const categories = await getCategories();
-    createFilterButtons(categories);
-    applyFilter("tous");
+    createFilterButtons(categories, works);
+    applyFilter("tous", works);
     checkConnection();
     openModals(categories);
     const fileInput = document.querySelector("#file-input");
-    addFormSubmitListener(fileInput, categories);
+    addFormSubmitListener(fileInput, categories, works);
   } catch (error) {
     console.error(error);
   }

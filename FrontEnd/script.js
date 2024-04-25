@@ -91,13 +91,6 @@
   };
 
   // Applique le filtre sur les galeries
-  const applyFilter = (id = "tous", updatedWorks) => {
-    applyFilterOnButtons(id);
-    clearGalleries();
-    applyFilterOnGalleries(id, updatedWorks);
-  };
-
-  // Applique le filtre sur les galeries en fonction de l'ID
   const applyFilterOnGalleries = async (id = "tous", works, updatedWorks) => {
     const worksToUse = updatedWorks || works;
     const editModeGallery = document.getElementById("edit-mode-gallery");
@@ -126,6 +119,13 @@
       galleryItem.appendChild(galleryItemTitle);
       document.getElementById("gallery").appendChild(galleryItem);
     });
+  };
+
+  // Application globale du filtre
+  const applyFilter = (id = "tous", updatedWorks) => {
+    applyFilterOnButtons(id);
+    clearGalleries();
+    applyFilterOnGalleries(id, updatedWorks);
   };
 
   // ***** Mode édition *****
@@ -181,7 +181,7 @@
 
   // ***** Gestion des modales *****
 
-  // Ouvre ou ferme la modale
+  // Gestion des interrupteurs des modales
   const toggleModal = (modal) => {
     const inputs = document.querySelectorAll(
       "#add-work-form input, #add-work-form select",
@@ -197,7 +197,7 @@
     }
   };
 
-  // Ouvre la modale 2
+  // Ouverture de la modale 2
   const openModal2 = async (categories) => {
     document.getElementById("add-works").addEventListener("click", () => {
       document.querySelector(".modal-2").classList.add("active");
@@ -215,7 +215,7 @@
     showSelectOptions(categories);
   };
 
-  // Ferme la modale 2
+  // Fermeture de la modale 2
   const closeModal2 = () => {
     const modal2 = document.querySelector(".modal-2");
     if (modal2) {
@@ -223,8 +223,8 @@
     }
   };
 
-  // Ouvre les modales
-  const openModals = (categories) => {
+  // Configure les écouteurs d'événements pour les modales
+  const setupModalOpeners = (categories) => {
     const modalTriggers = document.querySelectorAll(".modal-trigger");
     const modalTrigger2 = document.querySelector(".modal-2-trigger");
     const modalContainer = document.querySelector(".modal-container");
@@ -250,7 +250,7 @@
     return trashIcon;
   };
 
-  // Supprime un travail
+  // Supprimer un travail
   const deleteWork = async (singleWork, works, updatedWorks) => {
     const worksToUse = updatedWorks || works;
     const authToken = localStorage.getItem("authToken");
@@ -406,7 +406,7 @@
     createFilterButtons(categories, works);
     applyFilter("tous", works);
     checkConnection();
-    openModals(categories);
+    setupModalOpeners(categories);
     const fileInput = document.querySelector("#file-input");
     addFormSubmitListener(fileInput, categories, works);
   } catch (error) {

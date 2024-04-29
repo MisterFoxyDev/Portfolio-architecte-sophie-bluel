@@ -122,10 +122,10 @@
   };
 
   // Application globale du filtre
-  const applyFilter = (id = "tous", updatedWorks) => {
+  const applyFilter = (id = "tous", works, updatedWorks) => {
     applyFilterOnButtons(id);
     clearGalleries();
-    applyFilterOnGalleries(id, updatedWorks);
+    applyFilterOnGalleries(id, works, updatedWorks);
   };
 
   // ***** Mode édition *****

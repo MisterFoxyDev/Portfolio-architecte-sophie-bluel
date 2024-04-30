@@ -197,8 +197,8 @@
     }
   };
 
-  // Ouverture de la modale 2 + écouteurs d'événements
-  const openModal2 = async (categories) => {
+  // Configuration de la modale 2 (écouteurs d'événements)
+  const setupModal2 = async (categories) => {
     document.getElementById("add-works-button").addEventListener("click", () => {
       document.querySelector(".modal-2").classList.add("active");
     });
@@ -223,7 +223,7 @@
     }
   };
 
-  // Configure les écouteurs d'événements pour les modales
+  // Configure les écouteurs d'événements pour les triggers des modales
   const setupModalOpeners = (categories) => {
     const modalTriggers = document.querySelectorAll(".modal-trigger");
     const modalTrigger2 = document.querySelector(".modal-2-trigger");
@@ -235,7 +235,7 @@
       trigger.addEventListener("click", () => closeModal2());
     });
     modalTrigger2.addEventListener("click", () => toggleModal(modal2));
-    openModal2(categories);
+    setupModal2(categories);
   };
 
   // ***** Modale 1 (suppression de travaux) *****

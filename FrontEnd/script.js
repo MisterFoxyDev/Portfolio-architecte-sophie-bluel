@@ -181,7 +181,7 @@
 
   // ***** Gestion des modales *****
 
-  // Gestion des interrupteurs des modales
+  // Gestion des interrupteurs des modales et suppression des éléments de la modale 2
   const toggleModal = (modal) => {
     const inputs = document.querySelectorAll(
       "#add-work-form input, #add-work-form select",

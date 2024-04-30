@@ -197,7 +197,7 @@
     }
   };
 
-  // Ouverture de la modale 2
+  // Ouverture de la modale 2 + écouteurs d'événements
   const openModal2 = async (categories) => {
     document.getElementById("add-works-button").addEventListener("click", () => {
       document.querySelector(".modal-2").classList.add("active");

@@ -199,7 +199,7 @@
 
   // Ouverture de la modale 2
   const openModal2 = async (categories) => {
-    document.getElementById("add-works").addEventListener("click", () => {
+    document.getElementById("add-works-button").addEventListener("click", () => {
       document.querySelector(".modal-2").classList.add("active");
     });
     const fileInput = document.querySelector("#file-input");
